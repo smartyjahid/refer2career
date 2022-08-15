@@ -99,6 +99,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/jquery": "^2.0.47",
     "@types/node": "^12.11.1",
+    "angular-cli-ghpages": "^1.0.3",
     "codelyzer": "^6.0.0",
     "firebase-tools": "^9.9.0",
     "fuzzy": "^0.1.3",
