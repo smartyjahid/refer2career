@@ -1,0 +1,232 @@
+<app-nav-bar-content [navItems]="navItems"></app-nav-bar-content>
+<!-- <div class="wh-100" style="overflow-y: auto; overflow-x: hidden;"> -->
+  <div class="h-100 w-100 bg-lightest-blue" style="overflow-y: auto; overflow-x: hidden;" *ngIf="!isServiceRunning">
+    <div class="bg-primary w-100 text-white"
+      style="min-height: 220px; border-bottom-left-radius: 80px; border-bottom-right-radius: 80px;">
+    </div>
+    <h3 class="text-white text-center" style="margin-top: -180px !important;">Applicant Profile</h3>
+    <div class="row p-0 m-0 justify-content-center">
+      <div class="col-sm-10 p-2 mt-5" style="overflow-y: auto !important; overflow-x: hidden;">
+        <div class="bg-white border-8">
+          <div class="row">
+            <div class="col-sm-10 align-self-center">
+              <div class="p-3 m-2 row vertical-center justify-content-start">
+                <div class="col-sm-2 d-flex justify-content-start mb-2">
+                  <div>
+                    <div *ngIf="!user.photo"
+                      class="bg-opacity vertical-center border-6 bg-primary mx-auto text-center text-white text-xxlg"
+                      style="border-width: 2px; height: 130px !important; width: 125px !important; border: 2px solid rgb(255, 255, 255);">
+                      <span class="w-100 text-center material-icons text-xxlg">{{user
+                        ? user.name[0] : ''}}</span>
+                    </div>
+                    <img *ngIf="user.photo" class="img-fulid border-6"
+                      style="height: 130px !important; width: 125px !important; border: 2px solid white;"
+                      src="{{user.photo}}" alt="">
+                  </div>
+                </div>
+                <div class="text-dark col-12 col-md-9 col-sm-10">
+                  <div class="text-black semi-bold" style="font-size: 30px;">{{user.name}}</div>
+                  <div class="row vertical-center">
+                    <div class="col-12 col-lg-5 my-2">
+                      <span class="material-icons-outlined vertical-center text-smd mr-5">mail
+                        <span class="ml-2">{{user.email}}</span></span>
+                    </div>
+                    <div class="col-12 col-lg-7 my-2">
+                      <span *ngIf="user.basicInfo" class="material-icons-outlined vertical-center text-smd mr-4">call
+                        <span class="ml-2">{{user.basicInfo.mobile}}</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 row mt-4 p-0 m-0 justify-content-end">
+          <div class="col-sm-4 p-2 m-0 mb-3">
+            <div class="bg-white p-3 border-8">
+              <span class="text-lg mb-4">{{profileCompleted}}<span class="text-smd">% Profile Completed</span></span>
+              <div class="progress">
+                <div class="progress-bar" id="progress-bar">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-8 m-0 p-2">
+            <div class="p-3 mx-0 mb-3 bg-white border-8">
+              <div class="vertical-center justify-content-between">
+                <span class="text-black semi-bold myfont-size">CV Headline</span>
+              </div>
+              <span class="text-smd my-4" *ngIf="!isCVHeadEditing">{{cvHeadLine ? cvHeadLine : ''}}</span>
+              <input class="form-control my-3" *ngIf="isCVHeadEditing" type="text" placeholder=""
+                [(ngModel)]="cvHeadLine">
+              <div class="d-flex justify-content-start vertical-center" *ngIf="isCVHeadEditing">
+                <button class="btn btn-primary px-3 py-1 rounded-button mr-2">Save</button>
+                <button class="btn btn-secondary px-3 py-1 rounded-button">Cancel</button>
+              </div>
+              <hr>
+            </div>
+            <div class="p-3 mx-0 mb-3 bg-white w-100 border-8" [formGroup]="profileForm">
+              <div class="w-100">
+                <div class="mb-3 d-flex justify-content-between">
+                  <span class="text-black semi-bold myfont-size">Personal Details </span>
+                </div>
+                <div class="p-3" [ngClass]="isBasiDetailEditing ? 'border-violet box-shadow' : ''"
+                  style="border-radius: 6px;">
+                  <div class="row col-sm-12 pt-3 mx-auto d-flex justify-content-between"
+                    [ngClass]="isBasiDetailEditing ? '' : 'not-clickable'">
+                    <div class=" col-sm-5 mb-2">
+                      <mat-form-field class="p-0 w-100 mat-form-field">
+                        <mat-label class="p-0  text-grey">Phone number</mat-label>
+                        <input matInput type="number" placeholder="Enter phone number" class="p-0"
+                          formControlName='mobile' name="mobile">
+                        <mat-error>Enter valid phone number</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm-5 mb-2">
+                      <mat-form-field class="p-0 w-100 mat-form-field">
+                        <mat-label class="p-0  text-grey">Gender</mat-label>
+                        <mat-select formControlName='gender'>
+                          <mat-option value="Female">
+                            Female
+                          </mat-option>
+                          <mat-option value="Male">
+                            Male
+                          </mat-option>
+                          <mat-option value="Others">
+                            Others
+                          </mat-option>
+                        </mat-select>
+                        <mat-error>Enter valid detail</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm-5 mb-2">
+                      <mat-form-field class="p-0 w-100 mat-form-field">
+                        <mat-label class="p-0  text-grey">Martial Status</mat-label>
+                        <mat-select formControlName='martialStatus'>
+                          <mat-option value="Single">
+                            Single
+                          </mat-option>
+                          <mat-option value="Married">
+                            Married
+                          </mat-option>
+                          <mat-option value="Divorced">
+                            Divorced
+                          </mat-option>
+                          <mat-option value="Widowed">
+                            Widowed
+                          </mat-option>
+                          <mat-option value="Prefer not to say!">
+                            Prefer not to say!
+                          </mat-option>
+                        </mat-select>
+                        <mat-error>Enter valid detail</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm-5 mb-2">
+                      <mat-form-field class="p-0 w-100 mat-form-field">
+                        <mat-label class="p-0  text-grey">Nationality</mat-label>
+                        <input matInput placeholder="Enter nationality" class="p-0" formControlName='nationality'>
+                        <mat-error>Enter valid detail</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm-5 mb-2">
+                      <mat-form-field class="p-0 w-100 mat-form-field">
+                        <mat-label class="p-0  text-grey">Date of Birth</mat-label>
+                        <input matInput readonly [matDatepicker]="picker1" formControlName='dob' [max]="maxDob">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        <!-- <mat-hint class="text-light-grey text-xs">Click on icon to select date</mat-hint> -->
+                        <mat-error>Enter valid DOB</mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-end" *ngIf="isBasiDetailEditing">
+                    <button class="btn btn-primary bg-violet px-3 py-1">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-white mb-3 w-100 border-8">
+              <div class="mt-2 w-100">
+                <div class="ml-4 mb-3 d-flex justify-content-between">
+                  <span class="text-black semi-bold myfont-size">Skills </span>
+                </div>
+                <div class="row col-sm-11 d-flex justify-content-start">
+                  <div class="col-sm-12 my-4">
+                    <div *ngFor="let data of skillsArray; index as i"
+                      class="px-3 py-2 text-primary bg-lightest-blue mr-1 border-6 text-lato text-sm vertical-center"
+                      style="display: inline-block; border-radius: 15px; width: max-content; margin: 3px !important; white-space:nowrap;">
+                      <span class="text-grey mr-3 text-violet">{{data}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-white mb-3 w-100 border-8">
+              <div class="mt-2 w-100">
+                <div class="ml-4 mb-3 d-flex justify-content-between">
+                  <span class="text-black semi-bold myfont-size">Work Experience </span>
+                </div>
+                <div class="w-100">
+                  <div class="bg-grey mx-auto w-100">
+                    <div *ngFor="let data of workExpArray; index as i" class="w-100 text-break p-4 bg-white box-shadow"
+                      style="border-radius: 7px; margin-top: 10px !important; margin-bottom: 10px !important;">
+                      <span class="text-smd d-block py-0 my-0 text-dark mr-3"><b>{{data.title}}</b></span>
+                      <div class="d-flex justify-content-start vertical-center">
+                        <span class="text-sm text-dark mr-3 vertical-center">{{data.companyName}}
+                        </span>
+                        <span class="material-icons text-dark bold text-xxs mr-1">stop_circle</span>
+                        <span class="text-sm text-dark mr-3 vertical-center">
+                          {{data.type}}</span>
+                      </div>
+                      <span class="text-sm d-block text-grey mr-3">{{data.startDate | date : 'MMMM
+                        yyyy'}} - {{data.isWorking === true ? 'Present' : data.endDate | date : 'MMMM
+                        yyyy'}}</span>
+                      <span class="text-sm d-block text-grey mr-3">{{data.location}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-white mb-3 w-100 border-8">
+              <div class="mt-2 w-100">
+                <div class="ml-3 mb-3 d-flex justify-content-between">
+                  <span class="text-black semi-bold myfont-size">Education </span>
+                </div>
+                <div class="w-100">
+                  <div class="bg-grey my-4 w-100">
+                    <div *ngFor="let data of educationArray; index as i"
+                      class="w-100 text-break p-4 bg-white box-shadow"
+                      style="border-radius: 7px; margin-top: 10px !important; margin-bottom: 10px !important;">
+                      <span class="text-sm d-block m-2 text-grey mr-3"><b>Degree/Standard : </b>{{data.degree}}</span>
+                      <span class="text-sm d-block m-2 text-grey mr-3"><b>School : </b>{{data.school}}</span>
+                      <span class="text-sm d-block m-2 text-grey mr-3"><b>Field: </b>{{data.field}}</span>
+                      <span class="text-sm d-block m-2 text-grey mr-3"><b>Completion date : </b>{{data.completionDate
+                        |
+                        date
+                        :
+                        'dd
+                        MMMM
+                        yyyy'}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-white mb-3 w-100 border-8">
+              <div class="vertical-center justify-content-between">
+                <span class="text-black semi-bold myfont-size vertical-center ml-3">Resume <span
+                    class="material-icons-outlined bold text-dark text-ssmd ml-2">attachment</span></span>
+                <span class="text-violet text-link text-sm" *ngIf="user.resume" (click)="openResume()"><u>Open
+                    Resume</u></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- </div> -->
+
+
+<app-spinner-component *ngIf="isServiceRunning"></app-spinner-component>

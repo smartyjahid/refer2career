@@ -1,0 +1,199 @@
+<app-nav-bar-content [navItems]="navItems" *ngIf="!jobPost"></app-nav-bar-content>
+<div class="w-100 h-100 m-0 p-0 bg-lightest-blue" style="overflow-y: auto;">
+  <div class="w-100 bg-primary no-border-t" style="min-height: 240px !important; border-radius: 30px;">
+  </div>
+  <div class="row justify-content-center px-0 pt-2 mx-0" style="margin-top: -220px;">
+    <div class="col-sm-12">
+      <span class="material-icons d-block text-right text-lg text-link text-white semi-bold"
+        (click)="close()" *ngIf="jobPost">close</span>
+      <span class="material-icons d-block text-right text-lg mt-3 text-link text-white semi-bold" *ngIf="jobPost"
+        (click)="delete(deletePopup)">delete</span>
+    </div>
+    <div class="col-sm-8">
+      <span class="d-block text-white text-center semi-bold bold text-lg my-3" *ngIf="!jobPost">Post a job</span>
+      <span class="d-block text-white text-center semi-bold bold text-lg my-3" *ngIf="jobPost">Edit job</span>
+    </div>
+    <div class="col-sm-8 mx-2 bg-white"
+      style="border-radius: 7px; overflow-y: auto !important; overflow-x: hidden !important;">
+      <div class="mt-4 row d-flex vertical-center justify-content-center" [formGroup]="jobPostForm">
+        <div class="col-sm-5 m-3">
+          <label for="title" class="label-form">Job Title/Designation<span class="text-primary">*</span></label>
+          <mat-form-field appearance="fill" class="p-0 w-100 mat-form-field">
+            <input matInput placeholder="ex Software Developer" formControlName='title'>
+            <mat-error>Enter valid title</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-5 m-3">
+          <label for="vacancy" class="label-form">Total Vacancies <span class="text-primary">*</span></label>
+           <mat-form-field appearance="fill" class="p-0 w-100 mat-form-field">
+            <input matInput type="number" placeholder="ex 10" class="p-0" id="vacancy" formControlName='vacancy'>
+            <mat-error>Enter valid number</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-5 m-3">
+            <label for="type" class="label-form">Full time Permanent/Part Time/Contractual Job/Internship</label>
+           <mat-form-field class="p-0 w-100 mat-form-field" appearance="fill">
+            <mat-select id="type" formControlName='jobInternship'>
+              <mat-option value="Full Time Permanent Job">Full Time Permanent Job</mat-option>
+              <mat-option value="Part Time">Part Time</mat-option>
+              <mat-option value="Contractual Job">Contractual Job</mat-option>
+              <mat-option value="Internship">Internship</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-5 m-3">
+          <label for="jobType" class="label-form">Job Type <span class="text-primary">*</span></label>
+         <mat-form-field appearance="fill"  class="p-0 w-100 mat-form-field">
+          <mat-select id="jobType" formControlName='jobType'>
+            <mat-option value="In office">In office</mat-option>
+            <mat-option value="Work from home">Work from home</mat-option>
+          </mat-select>
+        </mat-form-field>
+        </div>
+        <div class="col-sm-5 m-3">
+          <label for="salary" class="label-form">{{ jobPostForm.get('jobInternship').value === "Internship" ? 'Stipend': 'Salary'}} <span
+            class="text-primary">*</span></label>
+          <mat-form-field class="w-100 mat-form-field" appearance="fill">
+            <input matInput formControlName='salary' id="salary" name="salary" type="number" class="p-0">
+            <span matPrefix>&#8377;&nbsp;</span>
+            <span matSuffix>.00</span>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-5 m-3">
+          <label for="salaryType" class="label-form">Salary type <span class="text-primary">*</span></label>
+         <mat-form-field  class="p-0 w-100 mat-form-field" appearance="fill">
+          <mat-select id="salaryType" formControlName='salaryType'>
+            <mat-option value="per week">per week</mat-option>
+            <mat-option value="per month">per month</mat-option>
+            <mat-option value="per annum">per annum</mat-option>
+          </mat-select>
+        </mat-form-field>
+        </div>
+        <div class="col-sm-5 m-" *ngIf="jobPostForm.get('jobType').value === 'In office'">
+          <label for="jobLocation" class="label-form">Job Location <span class="text-primary">*</span></label>
+           <mat-form-field appearance="fill" class="p-0 w-100 mat-form-field">
+            <input matInput placeholder="ex Bengaluru"  id="jobLocation"  class="p-0" formControlName='location'>
+            <mat-error>Enter valid location</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-5 m-3">
+          <label for="workExp" class="label-form">Work Experience (Minimum) <span class="text-primary">*</span></label>
+          <mat-slider class="w-100 form-control" id="workExp" style="color: #0e2043;" formControlName="experience" thumbLabel tickInterval="1" min="0" max="10">
+          </mat-slider>
+        </div>
+        <div class="col-sm-5 m-3"></div>
+        <div class="p-4 bg-white mb-3 col-sm-11">
+          <div class="mt-2 w-100">
+            <div class="ml-4 mb-3 d-flex justify-content-between">
+              <span class="text-grey semi-bold">Skills </span>
+              <span class="text-primary text-link semi-bold d-block" (click)="openSkillModal(skillModal)">+Add Skill</span>
+            </div>
+            <div class="row col-sm-11 d-flex justify-content-start">
+              <div class="col-sm-12 my-4">
+                <div class="bg-lightest-blue" *ngFor="let data of skillsArray; index as i"
+                  class="p-1 px-2 bg-lightest-blue vertical-center"
+                  style="display: inline-block; border-radius: 8px; width: max-content; margin: 7px !important; white-space:nowrap;">
+                  <span class="text-primary mr-2">{{data.skillName}}</span>
+                  <span class="material-icons text-xs text-link text-primary" (click)="deleteFieldValueToSkillArray(i)">close</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-11 d-flex justify-content-center p-0 m-0">
+          <div class="col-sm-11 p-0 my-3 mx-4">
+            <label class="text-grey semi-bold d-block text-center mb-3">Job Description</label>
+            <textarea class="form-control" placeholder="Enter job description" [(ngModel)]="description"
+              [ngModelOptions]="{standalone: true}" rows="8"></textarea>
+          </div>
+        </div>
+        <div class="col-sm-5 my-3">
+          <label class="text-grey semi-bold d-block mb-3" >Last date to apply</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <span class="material-icons input-group-text text-secondary bg-white">date_range
+              </span>
+            </div>
+            <input type="text" formControlName="lastDateToApply" autocomplete="nope" placeholder="Choose Date"
+              class="form-control semi-bold text-grey" style="border-width: 1px;" bsDatepicker readonly
+              [bsConfig]="{  isAnimated: true, containerClass:'theme-dark-blue', dateInputFormat: 'DD MMMM YYYY'}">
+          </div>
+        </div>
+        <div class="col-sm-11 d-flex justify-content-center p-0 m-0">
+          <div class="col-sm-11 p-0 my-3 mx-4">
+            <label class="text-grey semi-bold">About us</label>
+            <textarea class="form-control" [(ngModel)]="aboutUs" [ngModelOptions]="{standalone: true}"
+              id="exampleFormControlTextarea1" rows="5"></textarea>
+          </div>
+        </div>
+        <div class="col-sm-11 d-flex justify-content-center p-0 m-0">
+          <div class="col-sm-11 p-0 my-3 mx-4">
+            <div class="d-flex justify-content-between vertical-center my-3">
+              <label class="text-grey semi-bold">Custom Questions</label>
+              <span class="text-primary text-link semi-bold d-block" (click)="addQuestion()">+Add Question</span>
+            </div>
+            <div class="mb-4" *ngFor="let question of questionsArray; index as i">
+              <div class="d-flex justify-content-between vertical-center my-3">
+                <label class="d-block text-grey">Question {{i + 1}}</label>
+                <span class="material-icons-outlined text-grey text-link" (click)="deleteQuestion(i)">delete</span>
+              </div>
+              <textarea class="form-control my-2" [(ngModel)]="question.question" [ngModelOptions]="{standalone: true}"
+                rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="w-100 d-flex justify-content-center mb-4 mt-5 mr-2">
+          <span class="text-danger text-sm semi-bold">{{message}}</span>
+          <ion-spinner color="primary" *ngIf="isServiceRunning"></ion-spinner>
+          <button type="submit" *ngIf="!isServiceRunning && !jobPost"
+            class="ml-2 btn btn-primary p-0 text-smd px-4 py-1 mr-2" (click)="save()">Publish</button>
+            <button type="submit" *ngIf="!isServiceRunning && jobPost"
+            class="ml-2 btn btn-primary p-0 text-smd px-4 py-1 mr-2" (click)="save()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spinner-component *ngIf="isServiceRunning"></app-spinner-component>
+
+
+<ng-template #deletePopup>
+  <div class="modal-body p-3 box-shadow text-smd text-center" style="border-radius: 8px;">
+    Delete Job Post ?
+    <br>
+    <br>
+    <br>
+    <div class="d-flex justify-content-between mt-3">
+      <button type="button" class="btn btn-secondary bg-grey px-3 py-1" (click)="deletePost()">Yes</button>
+      <button type="button" class="btn btn-prmary bg-violet px-3 py-1" (click)="close(2)">No</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #skillModal>
+  <div class="bg-white p-3" style="border-radius: 7px;">
+    <div class="d-block text-right">
+      <span class="material-icons text-grey text-right text-link" (click)="closeModal()">close</span>
+    </div>
+    <span class="text-grey semi-bold d-block text-center my-2">ADD SKILL</span>
+    <div class="row p-0 px-2 m-3">
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label class="text-grey">Skill Name</mat-label>
+          <input type="text" placeholder="Ex. JAVA" aria-label="Number" matInput [formControl]="skillName"
+            [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredSkills | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error>Enter valid detail</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="w-100 d-flex justify-content-end mt-4">
+      <button class="btn btn-primary py-1 px-2" (click)="addFieldValueToSkillArray()">ADD SKILL</button>
+    </div>
+  </div>
+</ng-template>

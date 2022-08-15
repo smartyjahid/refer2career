@@ -1,0 +1,141 @@
+<app-nav-bar-content [navItems]="navItems"></app-nav-bar-content>
+<div class="wh-100" style="overflow-y: auto; overflow-x: hidden;">
+  <div class="h-100 w-100 bg-lightest-blue" style="overflow-y: auto;" *ngIf="user && !isServiceRunning">
+    <div class="bg-primary w-100 text-white"
+      style="min-height: 220px; border-bottom-left-radius: 80px; border-bottom-right-radius: 80px;">
+    </div>
+    <div class="row p-0 m-0 justify-content-center" style="margin-top: -160px !important;">
+      <div class="col-sm-10 p-2 mt-5" style="overflow-y: auto !important; overflow-x: hidden;">
+        <div class="bg-white border-8">
+          <div class="row">
+            <div class="col-sm-12 align-self-center">
+              <div class="p-3 m-2 row vertical-center justify-content-start">
+                <div class="col-12 col-md-4 col-lg-2 d-flex justify-content-start mb-2">
+                  <div>
+                    <input type="file" accept=".png, .jpg, .jpeg"
+                      class="position-absolute"
+                      style="opacity: 0 !important; height: 110px !important; width: 105px !important;" />
+                    <div *ngIf="!user.photo"
+                      class="vertical-center border-6 bg-primary mx-auto text-center text-white text-xxlg"
+                      style="border-width: 2px; height: 130px !important; width: 125px !important; border: 2px solid rgb(255, 255, 255);">
+                      <span class="w-100 text-center material-icons text-xxlg">{{user
+                        ? user.organizationDetails.organizationName[0] : ''}}</span>
+                    </div>
+                    <img *ngIf="user.photo" class="img-fulid border-6"
+                      style="height: 130px !important; width: 125px !important; border: 2px solid white;"
+                      src="{{user.photo}}" alt="">
+                  </div>
+                </div>
+                <div class="text-dark col-12 col-md-9 col-sm-10">
+                  <div class="text-black semi-bold" style="font-size: 30px;">
+                    {{user.organizationDetails.organizationName}}</div>
+                  <div class="row vertical-center">
+                    <div class="col-12 col-lg-5 my-2">
+                      <span class="material-icons-outlined text-break vertical-center text-smd mr-5">mail
+                        <span class="ml-2">{{user.organizationDetails.organizationEmail}}</span></span>
+                    </div>
+                    <div class="col-12 col-lg-7 my-2">
+                      <span class="material-icons-outlined vertical-center text-smd mr-4">call
+                        <span class="ml-2">{{user.organizationDetails.organizationMobile}}</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-10 row p-0 m-0">
+        <div class="col-sm-4 mt-3">
+          <div class="bg-white p-3 mb-3 border-8 w-100">
+            <span class="d-block text-center material-icons-outlined text-light-blue display-3 mt-3">post_add</span>
+            <span class="d-block text-center text-grey semi-bold my-2">Publish job posts and start
+              hiring!</span>
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-outline-primary px-5 text-sm my-2" (click)="navigateToAddJobs()">Post a
+                job</button>
+            </div>
+          </div>
+          <div class="bg-white p-3 mt-3 border-8 w-100">
+            <span class="d-block text-center material-icons-outlined text-light-blue display-3 mt-3">group</span>
+            <span class="d-block text-center text-grey semi-bold my-2">Manage applications</span>
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-outline-primary px-5 text-sm my-2"
+                routerLink="/recruiter/applicants">Manage</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-8 my-3 not-clickable">
+          <div class="bg-white border-8 w-100">
+            <div class="row p-3 d-flex justify-content-center" [formGroup]="detailForm">
+              <div class="col-sm-12 my-3 mb-2">
+                <h5 class="semi-bold text-center">Organization Details</h5>
+              </div>
+              <div class="col-12 col-sm-6 mb-2">
+                <div class="label-form">Organization name</div>
+                <input class="form-control" placeholder="Enter Organization name" formControlName='organizationName'>
+              </div>
+              <div class="col-12 col-sm-6 mb-2">
+                <div class="label-form">Organization field</div>
+                <input class="form-control" formControlName='field' placeholder="Enter Organization field">
+              </div>
+              <div class="col-12 col-sm-6 mb-2">
+                <div class="label-form">Contact number</div>
+                <input class="form-control" formControlName='organizationMobile' placeholder="Enter contact number">
+              </div>
+              <div class="col-12 col-sm-6 mb-2">
+                <div class="label-form">Organization email</div>
+                <input class="form-control" formControlName='organizationEmail' placeholder="Enter email">
+              </div>
+              <div class="col-12 col-sm-6 mb-2">
+                <div class="label-form">Address line one</div>
+                <input class="form-control" formControlName='addressLineOne' placeholder="Enter Address line one">
+              </div>
+              <div class="col-12 col-sm-6 mb-2">
+                <div class="label-form">Address line two</div>
+                <input class="form-control" formControlName='addressLineTwo' placeholder="Address line two">
+              </div>
+              <div class="col-12 col-sm-6 mb-2">
+                <div class="label-form">City</div>
+                <input class="form-control" formControlName='city' placeholder="Enter city">
+              </div>
+              <div class="col-12 col-sm-6 mb-2">
+                <div class="label-form">Pincode</div>
+                <input class="form-control" formControlName='pincode' type="number" placeholder="Enter email">
+              </div>
+              <div class="col-sm-12 mb-2">
+                <div class="label-form">About Organization</div>
+                <input class="form-control" formControlName='organizationAboutUs' placeholder="Enter About us">
+              </div>
+            </div>
+          </div>
+          <div class="bg-white border-8 w-100 mt-3">
+            <div class="row p-3 d-flex justify-content-center" [formGroup]="detailForm">
+              <div class="col-sm-12 my-3 mb-2">
+                <h5 class="semi-bold text-center">Personal Details</h5>
+              </div>
+              <div class="col-12 col-sm-6 mb-2">
+                <div class="label-form">Name</div>
+                <input class="form-control" placeholder="Enter name" formControlName='name'>
+              </div>
+              <div class="col-12 col-sm-6 mb-2">
+                <div class="label-form">Phone number</div>
+                <input class="form-control" type="tel" placeholder="Enter email" formControlName='mobile'>
+              </div>
+              <div class="col-12 col-sm-6 mb-2">
+                <div class="label-form">Email</div>
+                <input class="form-control" placeholder="Enter email" formControlName='email'>
+              </div>
+              <div class="col-12 col-sm-6 mb-2">
+                <div class="label-form">Alternate contact number</div>
+                <input class="form-control" placeholder="Enter email" formControlName='alternateNumber'>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+<app-spinner-component *ngIf="isServiceRunning"></app-spinner-component>

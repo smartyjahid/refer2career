@@ -1,0 +1,185 @@
+<app-nav-bar-content [navItems]="navItems"></app-nav-bar-content>
+<div class="wh-100" style="overflow-y: auto; overflow-x: hidden;">
+  <div class="w-100 h-100 m-0 p-0 justify-content-center" *ngIf="!isServiceRunning" style="background-color: #f8f8f8">
+    <div class="col-sm-10 row p-0 mx-auto vertical-center justify-content-around">
+      <div class="d-flex flex-column semi-bold  m-0 p-0 mr-3">
+        <span class="text-black text-lg">{{allAppliedPosts.length}}</span>
+        <h6 class="text-dark thin-font text-ssmd">Applied Jobs</h6>
+      </div>
+      <div class="d-flex flex-column semi-bold  m-0 p-0 mr-3">
+        <span class="text-black text-lg">{{shortlistedJobs}}</span>
+        <h6 class="text-dark thin-font text-ssmd">Shortlisted Jobs</h6>
+      </div>
+      <div class="d-flex flex-column semi-bold m-0 p-0 ">
+        <span class="text-black text-lg">{{hiredJobs}}</span>
+        <h6 class="text-dark thin-font text-ssmd">Hired</h6>
+      </div>
+    </div>
+
+    <div class="row justify-content-center p-2 bg-lightest-blue">
+      <div class="col-sm-9 mx-0 mt-2 p-0">
+        <app-not-found *ngIf="allAppliedPosts.length === 0" style="margin-top: 200px !important;" class="center-parent">
+        </app-not-found>
+
+        <div *ngIf="allAppliedPosts.length > 0" class="p-2">
+
+          <div class="m-2 mr-2 mb-3" *ngFor="let jobPost of allAppliedPosts" (click)="seeDetails(jobPost.data._id)">
+
+            <div class="card  shadow-lg p-3 text-link border-8">
+              <div class="d-flex mb-3 justify-content-between">
+                <div class="d-flex flex-wrap">
+                  <div class="mr-3 mb-2">
+                    <span>
+                      <img class="border-6" *ngIf="jobPost.jobPost.companyLogo" src="{{jobPost.jobPost.companyLogo}}"
+                        style="height: 60px; width: 58.2px;">
+                    </span>
+                  </div>
+                  <div class="text-left">
+                    <h4>{{jobPost.jobPost.title}}</h4>
+                    <div class="column">
+                      <div class="d-flex vertical-center flex-wrap">
+                        <div class=" vertical-center justify-content-start mr-3">
+                          <span class="material-icons-outlined  mr-2 text-primary">work</span>
+                          <span class=" text-lato text-primary d-inline">Experience : </span>
+                          <span class="text-lato text-primary">&nbsp;{{ jobPost.jobPost ? jobPost.jobPost.experience :
+                            ''
+                            }}
+                            years</span>
+                        </div>
+
+                        <div class="vertical-center justify-content-start mr-3">
+                          <span class="material-icons  mr-2 text-primary">business</span>
+                          <span class=" text-lato text-primary d-inline">Company : </span>
+                          <span class=" text-lato text-primary">&nbsp;{{jobPost.jobPost.companyName}}</span>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-wrap mt-1">
+                        <div *ngIf="jobPost.jobPost.jobType === 'In office'"
+                          class=" vertical-center justify-content-start mr-2">
+                          <span class="material-icons-outlined text-md  mr-2 text-primary">location_on</span>
+                          <span class=" text-lato text-smd text-primary">&nbsp;{{jobPost.jobPost.location}}</span>
+                        </div>
+
+                        <div *ngIf="jobPost.jobPost.jobType !== 'In office'"
+                          class=" vertical-center justify-content-start mr-2">
+                          <span class="material-icons-outlined text-md  mr-2 text-primary">home</span>
+                          <span class=" text-lato text-smd text-primary d-inline">Work from home</span>
+                        </div>
+
+                        <div class="vertical-center justify-content-start mr-2">
+                          <span class="material-icons text-md  mr-2 text-primary">
+                            schedule
+                          </span>
+                          <span class="text-smd text-lato text-primary">Submitted on {{jobPost.appliedDate | date: 'dd
+                            MMMM
+                            yyyy'}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex align-items-start justify-content-center">
+                  <span class="text-smd py-2"
+                    [ngClass]="jobPost.status === 'Shortlisted' ? 'text-primary' : jobPost.status === 'Hired' ? 'text-success' : jobPost.status === 'Rejected' ? 'text-danger' : ''">{{jobPost.status
+                    === 'Rejected' ? 'Closed' : jobPost.status}}</span>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between flex-wrap vertical-center">
+                <div class="my-2 d-flex vertical-center flex-wrap" *ngIf="jobPost.jobPost.skills.length > 0">
+
+                  <div class="px-2 py-1 text-primary bg-lightest-blue mr-2 border-6 text-lato text-sm">
+                    {{jobPost.jobPost.skills[0].skillName }}
+                  </div>
+                  <div class="px-2 py-1 text-primary bg-lightest-blue mr-2 border-6 text-lato text-sm"
+                    *ngIf="jobPost.jobPost.skills.length > 1">
+                    {{jobPost.jobPost.skills[1].skillName }}
+                  </div>
+                </div>
+
+                <div class="d-flex vertical-center flex-wrap justify-content-between">
+                  <div class="justify-content-between vertical-center mr-2">
+                    <div class="btn btn-primary px-2 py-1 mr-2 border-6 text-white text-lato text-sm">REWARD :
+                      ₹{{jobPost.referReward}}</div>
+                  </div>
+                  <div class="my-2 vertical-center justify-content-start">
+                    <span class="text-black text-slmd">&nbsp; ₹ {{jobPost.jobPost.salary}}</span>
+                    <div class="d-flex ml-1 align-self-end">
+                      <span class="text-fluid ">{{jobPost.jobPost.salaryType}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="m-2 mr-2 mb-3" *ngFor="let jobPost of allAppliedPosts" (click)="seeDetails(jobPost.data._id)">
+            <div class="card border-12 box-shadow btn btn-light p-3">
+              <div class="d-flex justify-content-between vertical-center mb-3">
+                <div class="text-left">
+                  <span class="text-dark text-ssmd semi-bold d-block">{{jobPost.jobPost.title}}</span>
+                  <span class="semi-bold d-block w-100 text-left"
+                    style="color: rgb(93, 35, 141);">{{jobPost.jobPost.companyName}}</span>
+                </div>
+                <img class="" *ngIf="jobPost.jobPost.companyLogo" src="{{jobPost.jobPost.companyLogo}}"
+                  style="max-height: 70px; max-width: 160px; min-height: 70px; min-width: 70px;">
+              </div>
+              <div class="row">
+                <div *ngIf="jobPost.jobPost.jobType === 'In office'"
+                  class="col-sm-6 my-2 vertical-center justify-content-start">
+                  <span class="material-icons-outlined text-md text-grey mr-2 text-violet">location_on</span>
+                  <span class="text-grey semi-bold text-smd  d-inline">Location : </span>
+                  <span class="text-grey text-smd">&nbsp;{{jobPost.jobPost.location}}</span>
+                </div>
+                <div *ngIf="jobPost.jobPost.jobType !== 'In office'"
+                  class="col-sm-6 my-2 vertical-center justify-content-start">
+                  <span class="material-icons-outlined text-md text-grey mr-2 text-violet">home</span>
+                  <span class="text-grey semi-bold text-smd  d-inline">Work from home</span>
+                </div>
+                <div class="col-sm-6 my-2 vertical-center" *ngIf="jobPost.jobPost.skills.length > 0">
+                  <span class="material-icons-outlined text-grey mr-2 text-md text-violet">psychology</span>
+                  <span class="text-grey semi-bold text-smd  d-inline">Skills : &nbsp;</span>
+                  <span class="text-grey text-smd text-wrap">{{jobPost.jobPost.skills[0].skillName }}
+                    {{ jobPost.jobPost.skills.length > 1 ? ' , ' +
+                    jobPost.jobPost.skills[1].skillName : ''}}</span>
+                </div>
+                <div class="my-2 col-sm-12 vertical-center justify-content-start">
+                  <span class="material-icons-outlined text-grey mr-2 text-violet">payments</span>
+                  <span class="text-grey semi-bold d-inline">{{jobPost.jobPost.jobInternship === 'Job' ? 'Salary'
+                    :
+                    'Stipend'}}
+                    :
+                  </span>
+                  <span class="text-grey">&nbsp; &#8377; {{jobPost.jobPost.salary}}
+                    {{jobPost.jobPost.salaryType}}</span>
+                </div>
+                <div class="my-2 col-sm-12 vertical-center justify-content-start">
+                  <span class="material-icons-outlined text-grey mr-2 text-violet">work</span>
+                  <span class="text-grey semi-bold  d-inline">Experience : </span>
+                  <span class="text-grey">&nbsp; {{ jobPost.jobPost ? jobPost.jobPost.experience : ''
+                    }}
+                    years</span>
+                </div>
+              </div>
+              <div class="row justify-content-between vertical-center mt-3">
+                <span class="text-sm text-grey semi-bold col-auto">Refer reward: <span
+                    class="badge badge-primary text-sm bg-violet">₹{{jobPost.referReward}}</span></span>
+              </div>
+              <div class="vertical-center justify-content-between mt-1">
+                <span class="text-smd py-2"
+                  [ngClass]="jobPost.status === 'Shortlisted' ? 'text-primary' : jobPost.status === 'Hired' ? 'text-success' : jobPost.status === 'Rejected' ? 'text-danger' : ''">{{jobPost.status
+                  === 'Rejected' ? 'Closed' : jobPost.status}}</span>
+                <span class="text-grey text-sm text-break">Submitted on &nbsp; {{jobPost.appliedDate | date: 'dd
+                  MMMM
+                  yyyy'}}</span>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<app-spinner-component *ngIf="isServiceRunning"></app-spinner-component>

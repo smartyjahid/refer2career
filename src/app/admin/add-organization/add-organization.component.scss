@@ -1,0 +1,12 @@
+.cdk-global-overlay-wrapper, .cdk-overlay-container { z-index: 99999!important; } 
+.cdk-overlay-connected-position-bounding-box {
+    z-index: 99999 !important;
+  }
+
+  ::ng-deep { .cdk-global-overlay-wrapper, .cdk-overlay-container { z-index: 9999!important; } }
+
+  .text-overflow{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }

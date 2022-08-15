@@ -1,0 +1,494 @@
+<app-nav-bar-content [navItems]="navItems"></app-nav-bar-content>
+<div class="h-100 w-100 bg-lightest-blue overflow-x-hidden" style="overflow-y: auto;" *ngIf="!isServiceRunning">
+    <div class="bg-primary w-100 text-white"
+      style="min-height: 220px; border-bottom-left-radius: 80px; border-bottom-right-radius: 80px;">
+    </div>
+    <div class="row p-0 m-0 justify-content-center" style="margin-top: -160px !important;">
+      <div class="col-sm-10 p-2 mt-5" style="overflow-y: auto !important; overflow-x: hidden;">
+        <div class="bg-white border-8">
+          <div class="row">
+            <div class="col-sm-12 align-self-center">
+              <div class="p-3 m-2 row vertical-center justify-content-start">
+                <div class="col-12 col-md-3 col-lg-2 d-flex justify-content-start mb-2">
+                  <div>
+                    <input type="file" accept=".png, .jpg, .jpeg" (change)='uploadImage($event,1)'
+                      class="position-absolute"
+                      style="opacity: 0 !important; height: 110px !important; width: 105px !important;" />
+                    <div *ngIf="!user.photo"
+                      class="bg-opacity vertical-center border-6 bg-primary mx-auto text-center text-white text-xxlg"
+                      style="border-width: 2px; height: 130px !important; width: 125px !important; border: 2px solid rgb(255, 255, 255);">
+                      <span class="w-100 text-center material-icons text-xxlg">{{user
+                        ? user.name[0] : ''}}</span>
+                    </div>
+                    <img *ngIf="user.photo" class="img-fulid border-6"
+                      style="height: 130px !important; width: 125px !important; border: 2px solid white;"
+                      src="{{user.photo}}" alt="">
+                  </div>
+                </div>
+                <div class="text-dark col-12 col-md-9 col-sm-10">
+                  <div class="text-black semi-bold" style="font-size: 30px;">{{user.name}}</div>
+                  <div class="row vertical-center">
+                    <div class="col-12 col-lg-5 my-2">
+                      <span class="material-icons-outlined vertical-center text-smd mr-5">mail
+                        <span class="ml-2">{{user.email}}</span></span>
+                    </div>
+                    <div class="col-12 col-lg-7 my-2">
+                      <span *ngIf="user.basicInfo" class="material-icons-outlined vertical-center text-smd mr-4">call
+                        <span class="ml-2">{{user.basicInfo.mobile}}</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 row mt-4 p-0 m-0 justify-content-end">
+          <div class="col-sm-4 p-2 m-0 mb-3">
+            <div class="bg-white p-3 border-8">
+              <span class="text-lg mb-4">{{profileCompleted}}<span class="text-smd">% Profile Completed</span></span>
+              <div class="progress">
+                <div class="progress-bar" id="progress-bar">
+                </div>
+              </div>
+              <div class="my-3" *ngIf="profileCompleted < 100">
+                <label class="text-dark semi-bold">Complete your profile</label>
+                <div *ngIf="!cvHeadLine" class="my-2">
+                  <span class="text-grey text-sm semi-bold mr-2">CV Headline</span>
+                  <span class="badge bg-light-blue py-1">Adds 10%</span>
+                </div>
+                <div *ngIf="!user.basicInfo" class="my-2">
+                  <span class="text-grey text-sm semi-bold mr-2">Personal Details</span>
+                  <span class="badge bg-light-blue py-1">Adds 15%</span>
+                </div>
+                <div *ngIf="!user.photo" class="my-2">
+                  <span class="text-grey text-sm semi-bold mr-2">Profile photo</span>
+                  <span class="badge bg-light-blue py-1">Adds 10%</span>
+                </div>
+                <div *ngIf="!user.resume" class="my-2">
+                  <span class="text-grey text-sm semi-bold mr-2">Resume</span>
+                  <span class="badge bg-light-blue py-1">Adds 15%</span>
+                </div>
+                <div *ngIf="skillsArray.length === 0" class="my-2">
+                  <span class="text-grey text-sm semi-bold mr-2">Skills</span>
+                  <span class="badge bg-light-blue py-1">Adds 12%</span>
+                </div>
+                <div *ngIf="educationArray.length === 0" class="my-2">
+                  <span class="text-grey text-sm semi-bold mr-2">Education</span>
+                  <span class="badge bg-light-blue py-1">Adds 11%</span>
+                </div>
+                <div *ngIf="workExpArray.length === 0" class="my-2">
+                  <span class="text-grey text-sm semi-bold mr-2">Experience</span>
+                  <span class="badge bg-light-blue py-1">Adds 15%</span>
+                </div>
+              </div>
+              <div class="my-3" *ngIf="profileCompleted === 100">
+                <label class="text-dark semi-bold d-block">You have done a great job!</label>
+                <span class="text-sm text-grey">Employers always prefer profiles with complete information, Make user to
+                  keep this information updated.</span>
+                <div class="mt-4">
+                  <span class="text-grey semi-bold pt-2 text-sm">
+                    Here are some tips for you:
+                  </span>
+                  <span class="my-2 vertical-center"><span class="mr-2 material-icons text-success">check_circle
+                    </span>Stay active on Refer2Career & apply to jobs.</span>
+                  <span class="my-2 vertical-center"><span class="mr-2 material-icons text-success">
+                      check_circle
+                    </span>Refer your friends, colleagues and get reward.</span>
+                  <span class="my-2 vertical-center"><span class="mr-2 material-icons text-success">
+                      check_circle
+                    </span>Ensure you keep your CV & Profile updated.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-8 m-0 p-2">
+            <div class="p-3 mx-0 mb-3 bg-white border-8">
+              <div class="vertical-center justify-content-between">
+                <span class="text-black semi-bold myfont-size">CV Headline</span>
+                <span class="text-primary text-link" *ngIf="!isCVHeadEditing" (click)="editCVHead()"> {{!cvHeadLine ?
+                  'Add' : 'Edit'}}</span>
+              </div>
+              <span class="text-smd my-4" *ngIf="!isCVHeadEditing">{{cvHeadLine ? cvHeadLine : 'Give an introductory
+                title to your profile to be viewed by Employers'}}</span>
+              <input class="form-control my-3" *ngIf="isCVHeadEditing" type="text" placeholder=""
+                [(ngModel)]="cvHeadLine">
+              <div class="d-flex justify-content-start vertical-center" *ngIf="isCVHeadEditing">
+                <button class="btn btn-primary px-3 py-1 rounded-button mr-2" (click)='saveCVHeadLine()'>Save</button>
+                <button class="btn btn-secondary px-3 py-1 rounded-button" (click)='editCVHead()'>Cancel</button>
+              </div>
+              <hr>
+              <small class="text-grey text-xs">Keep it updated for better job opportunities.</small>
+            </div>
+            <div class="p-3 mx-0 mb-3 bg-white w-100 border-8" [formGroup]="profileForm">
+              <div class="w-100">
+                <div class="mb-3 d-flex justify-content-between">
+                  <span class="text-black semi-bold myfont-size">Personal Details </span>
+                  <span class="material-icons-outlined vertical-center text-violet text-md text-link"
+                    (click)="basicInfoEdit()">{{isBasiDetailEditing ? '' : 'edit'}} <span
+                      class="text-sm text-primary">{{isBasiDetailEditing ? 'Cancel' : 'Edit'}}</span></span>
+                </div>
+                <div class="p-3" [ngClass]="isBasiDetailEditing ? 'border-violet box-shadow' : ''"
+                  style="border-radius: 6px;">
+                  <div class="row col-sm-12 pt-3 mx-auto d-flex justify-content-between"
+                    [ngClass]="isBasiDetailEditing ? '' : 'not-clickable'">
+                    <div class=" col-sm-6 mb-2">
+                      <div class="label-form">Phone number</div>
+                      <input class="form-control" type="number" placeholder="Enter phone number"
+                      formControlName='mobile' name="mobile">
+                      <div class="invalid-feedback">
+                        Enter correct number
+                      </div>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                        <div class="label-form">Gender</div>
+                        <select formControlName='gender' class="form-control">
+                          <option value="" selected>Select</option>
+                          <option value="Female">Female</option>
+                          <option value="Male">Male</option>
+                          <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                      <div class="label-form">Martial Status</div>
+                        <select formControlName='martialStatus' class="form-control" placeholder="Select">
+                          <option value="Single">Single</option>
+                          <option value="Married">Married</option>
+                          <option value="Divorced">Divorced</option>
+                          <option value="Widowed">Widowed</option>
+                          <option value="Prefer not to say!">Prefer not to say!</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                      <div class="label-form">Nationality</div>
+                      <input class="form-control" placeholder="Enter nationality" formControlName='nationality'>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                      <label for="dob" class="label-form">Date of Birth</label>
+                      <mat-form-field class="form-control pl-3 w-100">
+                        <input  id="dob" matInput readonly [matDatepicker]="picker1" formControlName='dob' [max]="maxDob">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        <mat-hint class="text-light-grey text-xs">Click on icon to select date</mat-hint>
+                        <mat-error>Enter valid DOB</mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-end" *ngIf="isBasiDetailEditing">
+                    <button class="btn btn-primary px-3 py-1" (click)='saveBasicInfo()'>Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-white mb-3 w-100 border-8">
+              <div class="mt-2 w-100">
+                <div class="ml-4 mb-3 d-flex justify-content-between">
+                  <span class="text-black semi-bold myfont-size">Skills </span>
+                  <span class="text-primary text-link" (click)="openSkillModal(skillModal)">Add Skill +</span>
+                </div>
+                <div class="row col-sm-11 d-flex justify-content-start">
+                  <div class="col-sm-12 my-4">
+                    <div *ngFor="let data of skillsArray; index as i"
+                      class="px-3 py-2 text-primary bg-lightest-blue mr-1 border-6 text-lato text-sm vertical-center"
+                      style="display: inline-block; border-radius: 15px; width: max-content; margin: 3px !important; white-space:nowrap;">
+                      <span class="text-grey mr-3 text-violet">{{data}}</span>
+                      <span class="material-icons text-xs text-link" (click)="removeTag(i)">close</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="text-sm text-fluid text-light-grey w-100 mx-3 mt-4">Skills plays a major role to match a Job
+                  profile.</span>
+              </div>
+            </div>
+            <div class="p-2 bg-white mb-3 w-100 border-8">
+              <div class="mt-2 w-100">
+                <div class="ml-3 mb-3 d-flex justify-content-between">
+                  <span class="text-black semi-bold myfont-size">Work Experience </span>
+                  <span class="text-primary text-link" (click)="openWorkExpModal(workExp)">Add Experience +</span>
+                </div>
+                <div class="w-100">
+                  <div class="bg-grey mx-auto w-100">
+                    <div *ngFor="let data of workExpArray; index as i" class="w-100 text-break p-4 bg-white box-shadow"
+                      style="border-radius: 7px; margin-top: 10px !important; margin-bottom: 10px !important;">
+                      <div class="d-flex justify-content-end">
+                        <span class="material-icons-outlined text-primary text-smd mr-2 text-link"
+                          (click)="editWorkExp(data, workExp, i)">edit</span>
+                        <span class="material-icons-outlined text-primary text-smd text-link"
+                          (click)="deleteWorkExp(i)">delete</span>
+                      </div>
+                      <span class="text-smd d-block py-0 my-0 text-dark mr-3"><b>{{data.title}}</b></span>
+                      <div class="d-flex justify-content-start vertical-center">
+                        <span class="text-sm text-dark mr-3 vertical-center">{{data.companyName}}
+                        </span>
+                        <span class="material-icons text-dark bold text-xxs mr-1">stop_circle</span>
+                        <span class="text-sm text-dark mr-3 vertical-center">
+                          {{data.type}}</span>
+                      </div>
+                      <span class="text-sm d-block text-grey mr-3">{{data.startDate | date : 'MMMM
+                        yyyy'}} - {{data.isWorking === true ? 'Present' : data.endDate | date : 'MMMM
+                        yyyy'}}</span>
+                      <span class="text-sm d-block text-grey mr-3">{{data.location}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-white mb-3 w-100 border-8">
+              <div class="mt-2 w-100">
+                <div class="ml-3 mb-3 d-flex justify-content-between">
+                  <span class="text-black semi-bold myfont-size">Education </span>
+                  <span class="text-primary text-link" (click)="openEducationModal(education)">Add Education +</span>
+                </div>
+                <div class="w-100">
+                  <div class="bg-grey my-4 w-100">
+                    <div *ngFor="let data of educationArray; index as i"
+                      class="w-100 text-break p-4 bg-white box-shadow"
+                      style="border-radius: 7px; margin-top: 10px !important; margin-bottom: 10px !important;">
+                      <div class="d-flex justify-content-end">
+                        <span class="material-icons-outlined text-primary text-smd mr-2 text-link"
+                          (click)="editEducation(data, education, i)">edit</span>
+                        <span class="material-icons-outlined text-primary text-smd text-link"
+                          (click)="deleteEducation(i)">delete</span>
+                      </div>
+                      <span class="text-sm d-block m-2 text-grey mr-3"><b>Degree/Standard : </b>{{data.degree}}</span>
+                      <span class="text-sm d-block m-2 text-grey mr-3"><b>School : </b>{{data.school}}</span>
+                      <span class="text-sm d-block m-2 text-grey mr-3"><b>Field: </b>{{data.field}}</span>
+                      <span class="text-sm d-block m-2 text-grey mr-3"><b>Completion date : </b>{{data.completionDate
+                        |
+                        date
+                        :
+                        'dd
+                        MMMM
+                        yyyy'}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>  
+            <div class="p-2 bg-white mb-3 w-100 border-8">
+              <div class="vertical-center justify-content-between">
+                <span class="text-black semi-bold myfont-size vertical-center ml-3">Attach CV <span
+                    class="material-icons-outlined bold text-dark text-ssmd ml-2">attachment</span></span>
+                <span class="text-primary text-link text-sm" *ngIf="user.resume" (click)="openResume()"><u>Open
+                    Resume</u></span>
+              </div>
+              <div class="mt-2 row d-flex justify-content-center">
+                <div class="row">
+                  <div class="col-sm-12 d-flex justify-content-center">
+                    <div class="my-4">
+                      <label for="upload">
+                        <span class="btn btn-primary vertical-center glyphicon glyphicon-folder-open"
+                          aria-hidden="true"><span class="material-icons text-primarymx-auto">backup</span>&nbsp;
+                          &nbsp;{{user.resume
+                          ? "Update Resume" : "Upload Resume"}}</span>
+                        <input type="file" id="upload" style="display:none" accept=".pdf,.docx"
+                          class="form-control-file" (change)="fileChange($event)">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row justify-content-center my-2">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<ng-template #workExp>
+  <div class="bg-white p-3" style="border-radius: 7px; max-height: 550px !important; overflow-y: auto;">
+    <div class="d-block text-right">
+      <span class="material-icons text-grey text-right text-link" (click)="closeModal()">close</span>
+    </div>
+    <span class="text-grey semi-bold d-block text-center mb-2">{{workExpToUpdate !== undefined ? 'UPDATE' : 'ADD'}}
+      EXPERIENCE DETAILS</span>
+    <div class="row p-0 px-2 m-3" [formGroup]="workExpForm">
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label class="p-0 text-grey">Title</mat-label>
+          <input matInput placeholder="Enter field" class="p-0" formControlName='title'>
+          <mat-error>Enter valid title</mat-error>
+          <mat-hint class="text-light-grey text-xs">Ex - Software Developer</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label class="text-grey">Job Type</mat-label>
+          <mat-select formControlName='type'>
+            <mat-option value="Full Time">
+              Full Time
+            </mat-option>
+            <mat-option value="Part Time">
+              Part Time
+            </mat-option>
+            <mat-option value="Freelance">
+              Freelance
+            </mat-option>
+            <mat-option value="Trainee">
+              Trainee
+            </mat-option>
+            <mat-option value="Internship">
+              Internship
+            </mat-option>
+          </mat-select>
+          <mat-error>Enter valid detail</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label class="p-0 text-grey">Company Name</mat-label>
+          <input matInput placeholder="Enter Company Name" class="p-0" formControlName='companyName'>
+          <mat-error>Enter valid company name</mat-error>
+          <mat-hint class="text-light-grey text-xs">Ex - Microsoft</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label class="p-0 text-grey">Location</mat-label>
+          <input matInput placeholder="Enter Location" class="p-0" formControlName='location'>
+          <mat-error>Enter valid location</mat-error>
+          <mat-hint class="text-light-grey text-xs">Ex - United States</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 mt-3">
+        <mat-checkbox class="example-margin" formControlName='isWorking'>Present Working</mat-checkbox>
+      </div>
+      <div class="col-sm-12 mt-3 row mt-3 d-flex justify-content-between">
+        <mat-form-field appearance="outline" class="p-0 col-sm-5 mat-form-field ">
+          <mat-label class="text-grey">Start Date</mat-label>
+          <input matInput readonly [matDatepicker]="picker1" formControlName='startDate'>
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+          <mat-hint class="text-light-grey text-xs">Click on icon to select date</mat-hint>
+          <mat-error>Enter valid date</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="p-0 col-sm-5 mat-form-field"
+          *ngIf="workExpForm.get('isWorking').value !== true">
+          <mat-label  class="text-grey">End Date</mat-label>
+          <input matInput readonly [matDatepicker]="picker2" formControlName='endDate'>
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+          <mat-hint class="text-light-grey text-xs">Click on icon to select date</mat-hint>
+          <mat-error>Enter valid date</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label class="p-0 text-grey">Description</mat-label>
+          <input matInput placeholder="Enter field" class="p-0" formControlName='description'>
+          <mat-error>Enter Description</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="w-100 d-flex justify-content-end mt-4">
+      <button class="btn btn-primary py-1 px-2" (click)="addWorkExp()">Save</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #education>
+  <div class="bg-white p-3" style="border-radius: 7px; max-height: 550px !important; overflow-y: auto;">
+    <div class="d-block text-right">
+      <span class="material-icons text-grey text-right text-link" (click)="closeModal()">close</span>
+    </div>
+    <span class="text-grey semi-bold d-block text-center my-2">{{educationToUpdate !== undefined ? 'UPDATE' : 'ADD'}}
+      EDUCATION DETAILS</span>
+    <div class="row p-0 px-2 m-3" [formGroup]="educationDetailsForm">
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label class="text-grey">Qualification</mat-label>
+          <input type="text" placeholder="Ex. B.Tech" aria-label="Number" matInput formControlName='degree'
+            [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredQualifications | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error>Enter valid detail</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label class="text-grey">Course Type</mat-label>
+          <mat-select formControlName='type'>
+            <mat-option value="Full Time">
+              Full Time
+            </mat-option>
+            <mat-option value="Part Time">
+              Part Time
+            </mat-option>
+          </mat-select>
+          <mat-error>Enter valid detail</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label class="p-0 text-grey">Field/Stream</mat-label>
+          <input matInput placeholder="Enter field" class="p-0" formControlName='field'>
+          <mat-error>Enter valid field</mat-error>
+          <mat-hint class="text-light-grey text-xs">Ex - Computer Science</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label class="p-0 text-grey">Institute</mat-label>
+          <input matInput placeholder="Enter name" class="p-0" formControlName='school'>
+          <mat-error>Enter valid name</mat-error>
+          <mat-hint class="text-light-grey text-xs">Ex - Oxford university</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label class="p-0 text-grey">Institute Location</mat-label>
+          <input matInput placeholder="Enter name" class="p-0" formControlName='location'>
+          <mat-error>Enter valid location</mat-error>
+          <mat-hint class="text-light-grey text-xs">Ex - England</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-12 mt-3">
+        <mat-form-field appearance="outline" class="p-0 w-75 mat-form-field">
+          <mat-label class="text-grey">Completion date</mat-label>
+          <input matInput readonly [matDatepicker]="picker1" formControlName='completionDate'>
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+          <mat-hint class="text-light-grey text-xs">Click on icon to select date</mat-hint>
+          <mat-error>Enter valid date</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="w-100 d-flex justify-content-end mt-4">
+      <button class="btn btn-primary py-1 px-2" (click)="addEducation()">Save</button>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #skillModal>
+  <div class="bg-white p-3" style="border-radius: 7px;">
+    <div class="d-block text-right">
+      <span class="material-icons text-grey text-right text-link" (click)="closeModal()">close</span>
+    </div>
+    <span class="text-lato semi-bold d-block text-center my-2">ADD SKILL</span>
+    <div class="row p-0 px-2 m-3" [formGroup]="educationDetailsForm">
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label class="text-grey">Skill Name</mat-label>
+          <input type="text" placeholder="Ex. JAVA" aria-label="Number" matInput [formControl]="skillName"
+            [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredSkills | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error>Enter valid detail</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="w-100 d-flex justify-content-end mt-4">
+      <button class="btn btn-primary py-1 px-2" (click)="addSkill()">ADD SKILL</button>
+    </div>
+  </div>
+</ng-template>
+
+<app-spinner-component *ngIf="isServiceRunning"></app-spinner-component>

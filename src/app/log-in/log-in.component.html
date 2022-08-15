@@ -1,0 +1,226 @@
+<div class="vh-100" style="overflow-y: auto;overflow-x: auto;">
+<div class="row shadow justify-content-center p-0 m-0">
+  <div class="col-sm-11">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
+      <a class="nav-link"><img src="../../../../assets/refer2carrierlogo.png" class="logo-header" alt="">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="ml-3 collapse navbar-collapse vertical-center justify-content-between" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item mr-4">
+            <a routerLink="/home" class="nav-link text-dark myfont-size text-link active-button">
+              ABOUT US</a>
+          </li>
+          <li class="nav-item mr-4">
+            <a class="nav-link text-dark myfont-size text-link active-button">
+              JOB OPPORTUNITIES</a>
+          </li>
+          <li class="nav-item mr-4">
+            <a class="nav-link text-dark myfont-size text-link active-button">
+              PARTNERS</a>
+          </li>
+          <li class="nav-item mr-4">
+            <a class="nav-link text-dark myfont-size text-link active-button">
+              CONTACT US</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="vertical-center">
+            <a (click)="goToSignUp()" *ngIf="isLogin || isForgotPassword || isVerifyOTP"><button class="btn btn-primary mr-2"><span class="vertical-center">
+              <ion-icon name="lock-closed" class="mr-1"></ion-icon>SIGNUP
+            </span></button></a>
+            <a *ngIf="isSignUp" (click)="goToLogin()"><button class="btn btn-primary"><span
+                  class="vertical-center">
+                  <ion-icon name="person" class="mr-1"></ion-icon>LOGIN
+                </span></button></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+
+  <div class="bg-white vertical-center" style="overflow-y: auto;">
+    <div class="container mt-5">
+      <div *ngIf="isLogin" class="row mt-8 mb-5">
+        <div class="col-md-12 col-lg-6">
+          <div class="p-a30 border-1">
+            <div class="tab-content">
+              <form id="login" [formGroup]="loginForm">
+                <div class="h4" style="font-family: 'Lato', sans-serif;font-weight: 700;">LOGIN</div>
+                <div class="p text-secondary">If you have an account with us, please log in.</div>
+                <alert type="success" class="text-sm m-2" *ngIf="isVerified">
+                  Now you can login with your credentials.
+                </alert>
+                <div class="form-group">
+                  <div class="label">E-MAIL* </div>
+                  <input name="email" required="" class="form-control" placeholder="Your Email Id"
+                    formControlName='emailLogin' type="email">
+
+                </div>
+                <div class="form-group">
+                  <div class="label">PASSWORD* </div>
+                  <input name="password" required="" class="form-control " placeholder="Type Password"
+                    formControlName='passwordLogin' type="password">
+                </div>
+                <div class="text-left mb-2 col-sm-12">
+                  <span class="text-sm text-danger" *ngIf="message"><b>{{message}}</b></span>
+                </div>
+                <div class="mt-3 vertical-center">
+                  <button class="btn btn-primary text-center site-button mr-5 btn-lg"
+                    (click)="login()">LOGIN</button>
+                  <div class="vertical-center text-link " (click)="forgotPasswordVisible()">
+                    <ion-icon name="lock-open-outline"></ion-icon>
+                    <span class="ml-2">
+                      Forgot
+                      Password</span>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-sm-12 p-2" *ngIf="isLoginCard">
+            <h5 class="p w-100 text-grey text-sm text-center">Or Sign in using</h5>
+            <div class="w-100 d-flex justify-content-center">
+              <ion-icon class="linked-in-color text-lg m-2 text-link" (click)="linkedinLogin()" name="logo-linkedin">
+              </ion-icon>
+              <ion-icon class="text-danger text-lg m-2 text-link" (click)="googleLogin()" name="logo-google">
+              </ion-icon>
+              <ion-icon class="facebook-color text-lg m-2 text-link" (click)="facebookLogin()" name="logo-facebook">
+              </ion-icon>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <img src="../../assets/login.png" alt="">
+        </div>
+      </div>
+      <div *ngIf="isForgotPassword || isResetPassword" class="row mt-7 vertical-center">
+        <div class="col-md-12 col-lg-6 vertical-center">
+          <div class="p-a30 border-1">
+            <form *ngIf="isForgotPassword">
+              <div class="h4" style="font-family: 'Lato', sans-serif;font-weight: 700;">FORGET PASSWORD ?</div>
+              <div class="p text-secondary">We will send you an email to reset your password.</div>
+              <div class="form-group">
+                <div class="label">E-MAIL *</div>
+                <input name="email" class="form-control" [formControl]="email" placeholder="Your Email Id" type="email">
+              </div>
+              <div class="vertical-center justify-content-between">
+                <button class="btn btn-outline-primary" (click)="goToLogin()">Back</button>
+                <button class="btn btn-primary" (click)="forgotPassword()">Submit</button>
+              </div>
+            </form>
+            <div class="p-3 row justify-content-center" *ngIf="isResetPassword">
+              <mat-form-field class="p-0 w-100 mat-form-field col-sm-7 mb-3">
+                <mat-label class="semi-bold text-grey text-smd m-0">New Password</mat-label>
+                <input matInput class="text-sm m-0" [type]="!isPasswordVisible ? 'password': 'text'"
+                  placeholder="Enter password" [formControl]='resetPassword'>
+                <!-- <span matSuffix (click)="isPasswordVisible = !isPasswordVisible"
+                class="text-link material-icons text-grey">{{!isPasswordVisible ? 'visibility_off': 'visibility'}}
+              </span> -->
+                <mat-error class="text-xs">Password required*</mat-error>
+              </mat-form-field>
+              <div class="w-100 d-flex justify-content-center mb-5">
+                <button class="btn btn-primary p-1 px-4 text-smd bold"
+                  style="border-radius: 20px; border-color: 0px !important;" (click)="restPassword()">Reset</button>
+              </div>
+              <div class="w-100 text-center" *ngIf="isForgotPassword">
+                <a class="text-sm text-link semi-bold text-primary mr-2" (click)='showLogin()'><u>Login
+                    here.</u></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <img src="../../assets/login.png" alt="">
+        </div>
+      </div>
+      <div class="mt-7 row mt-8 mb-5">
+        <div class="row" *ngIf="isSignUp">
+          <div class="col-md-12 col-lg-6">
+            <div class="p-a30 border-1  max-w500 m-auto">
+              <div class="h4" style="font-family: 'Lato', sans-serif;font-weight: 700;">
+                PERSONAL INFORMATION</div>
+              <div class="p text-secondary">If you don't have an account with us, please
+                Sign up.</div>
+              <form [formGroup]="signupForm">
+                <div class="form-group">
+                  <div class="label">Full Name *</div>
+                  <input name="name" placeholder="Full Name" formControlName='name' required="" class="form-control"
+                    placeholder="First Name" type="text">
+                </div>
+                <div class="form-group">
+                  <div class="label">E-MAIL *</div>
+                  <input name="email" formControlName='email' required="" class="form-control"
+                    placeholder="Your Email Id" type="email">
+                </div>
+                <div class="form-group">
+                  <div class="label">PASSWORD *</div>
+                  <input name="password" formControlName='password' required="" class="form-control "
+                    placeholder="Type Password" type="password">
+                </div>
+                <div class="text-left mb-2 col-sm-12">
+                  <span class="text-sm text-danger" *ngIf="message"><b>{{message}}</b></span>
+                </div>
+                <div class="text-left mt-3 vertical-center">
+                  <button *ngIf="!isServiceRunning" class="btn btn-primary text-center site-button p-3 px-4 btn-lg"
+                    (click)="registerCandidate()">CREATE</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-6">
+            <img src="../../assets/register.png" alt="">
+          </div>
+        </div>
+
+        <div class="row" *ngIf="isVerifyOTP">
+          <div class="col-md-12 col-lg-6" *ngIf="isVerifyOTP || isSignUp">
+            <div class="p-a30 border-1  max-w500 m-auto">
+              <div class="w-100 p-3 d-flex justify-content-center">
+                <div class="w-100">
+                  <alert type="success" class="text-sm">
+                    We have sent a 6 digit passcode at {{ signupForm.get('email').value }} {{email.value}} kindly enter
+                    the
+                    code
+                    here.
+                  </alert>
+                  <div class="p-3">
+                    <label class="semi-bold mt-2">Enter a 6-digit passcode</label>
+                    <ng-otp-input name="otp" ngDefaultControl [(ngModel)]='otp' (onInputChange)="onOtpChange($event)"
+                      [config]="{length:6, allowNumbersOnly:true, inputClass:'mb-3'	}">
+                    </ng-otp-input>
+                    <div class="text-right mb-2 d-block">
+                      <span class="text-sm text-danger" *ngIf="!isOTPCorrect"><b>Invalid code</b></span>
+                    </div>
+                    <button *ngIf="!isServiceRunning" (click)="verifyOTP()"
+                      class="btn btn-primary d-block p-1 px-4 text-sm" style="border-radius: 20px;">Verify</button>
+                    <ion-spinner color="primary" mode="md" *ngIf="isServiceRunning"></ion-spinner>
+                    <div class="mt-5">
+                      <a class="text-primary d-block semi-bold text-sm mt-3 pb-2" *ngIf='timer > 0'><span
+                          class="text-secondary">Resend Code </span> 00 :
+                        {{timer > 9 ? timer : '0'+timer}}</a>
+                      <a class="text-primary semi-bold d-block text-link text-sm mt-3 pb-2" *ngIf='timer <= 0'
+                        (click)="resendOTP()">Resend Code</a>
+                    </div>
+                  </div>
+                  <div class="w-100">
+                    <div class="a text-sm text-link vertical-center" (click)='back()'>
+                      Back</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-6">
+            <img src="../../assets/register.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

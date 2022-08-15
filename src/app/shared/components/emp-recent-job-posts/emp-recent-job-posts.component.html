@@ -1,0 +1,132 @@
+<div class="row p-0 m-0 pt-5 overflow-x-hidden">
+  <div class="row col-sm-12 justify-content-center p-0 mx-1">
+    <div class="row col-sm-12 d-flex justify-content-between mx-1 mb-4">
+      <div class="mx-2">
+        <h2>Recent Job Posts</h2>
+      </div>
+      <div class="px-2 d-flex justify-content-center vertical-center text-link ">
+        <div class="px-2 align-self-end py-1 text-lato btn btn-primary text-xs" (click)="navigateToAllJobs()">Browse All Jobs</div>
+      </div>
+    </div>
+    <div class="col-sm-9 p-0 mt-2 ">
+      <app-not-found *ngIf="allJobPost.length === 0" style="margin-top: 200px !important;" message="No Jobs Available" class="center-parent">
+      </app-not-found>
+      <div class=" mb-3" *ngFor="let jobPost of allJobPost; index as i;" (click)="seeDetails(jobPost)">
+        <div *ngIf="i<5" class="card shadow-lg p-3 text-link border-8">
+          <div class="d-flex mb-3 justify-content-between">
+            <div class="d-flex flex-wrap">
+              <div class="mr-3 mb-2">
+                <span>
+                  <img class="border-6" *ngIf="jobPost.jobPost.companyLogo" src="{{jobPost.jobPost.companyLogo}}"
+                    style="height: 60px; width: 58.2px;">
+                </span>
+              </div>
+              <div class="text-left">
+                <h4>{{jobPost.jobPost.title}}</h4>
+                <div class="column">
+                  <div class="d-flex vertical-center flex-wrap">
+                    <div class=" vertical-center justify-content-start mr-3">
+                      <span class="material-icons-outlined  mr-2 text-primary">work</span>
+                      <span class=" text-lato text-primary d-inline">Experience : </span>
+                      <span class="text-lato text-primary">&nbsp; {{ jobPost.jobPost ? jobPost.jobPost.experience :
+                        ''
+                        }}
+                        years</span>
+                    </div>
+
+                    <div class=" vertical-center justify-content-start mr-3">
+                      <span class="material-icons  mr-2 text-primary">business</span>
+                      <span class=" text-lato text-primary d-inline">Company : </span>
+                      <span class=" text-lato text-primary">&nbsp; {{jobPost.jobPost.companyName}}</span>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-wrap mt-1">
+                    <div *ngIf="jobPost.jobPost.jobType === 'In office'"
+                      class=" vertical-center justify-content-start mr-2">
+                      <span class="material-icons-outlined text-md  mr-2 text-primary">location_on</span>
+                      <span class=" text-lato text-smd text-primary">&nbsp;{{jobPost.jobPost.location}}</span>
+                    </div>
+
+                    <div *ngIf="jobPost.jobPost.jobType !== 'In office'"
+                      class=" vertical-center justify-content-start mr-2">
+                      <span class="material-icons-outlined text-md  mr-2 text-primary">home</span>
+                      <span class=" text-lato text-smd text-primary d-inline">Work from home</span>
+                    </div>
+
+                    <div class="vertical-center justify-content-start mr-2">
+                      <span class="material-icons text-md  mr-2 text-primary">
+                        schedule
+                      </span>
+                      <span class=" text-smd text-lato text-primary">Published on&nbsp;{{jobPost.jobPost.createdAt |
+                        date: 'dd
+                        MMMM
+                        yyyy'}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="jobPost.isApplied" class=" d-flex align-items-start justify-content-center">
+              <div class="p-2 bg-light " style="border-radius: 25px !important;">Applied</div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between flex-wrap vertical-center">
+            <div class="my-2 d-flex vertical-center flex-wrap" *ngIf="jobPost.jobPost.skills.length > 0">
+
+              <div class="px-2 py-1 text-primary bg-lightest-blue mr-2 border-6 text-lato text-sm">
+                {{jobPost.jobPost.skills[0].skillName }}
+              </div>
+              <div class="px-2 py-1 text-primary bg-lightest-blue mr-2 border-6 text-lato text-sm"
+                *ngIf="jobPost.jobPost.skills.length > 1">
+                {{jobPost.jobPost.skills[1].skillName }}
+              </div>
+            </div>
+
+            <div class="d-flex vertical-center flex-wrap justify-content-between">
+              <div class="my-2 vertical-center justify-content-start">
+                <span class="text-black text-slmd">&nbsp; ₹ {{jobPost.jobPost.salary}}</span>
+                <div class="d-flex ml-1 align-self-end" >
+                <span class="text-fluid ">{{jobPost.jobPost.salaryType}}</span>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 mt-2 px-2">
+      <div class="card border-8 d-flex flex-column justify-content-between p-3 mb-5 shadow-lg ">
+        <div class="m-2 mb-3">
+          <div class="avatar-div">
+            <img class="avatar-image" src="../../../../assets/Peter Schutz2.jpg" alt="">
+          </div>
+        </div>
+        <div class="d-flex text-dark">
+          <p>Hire character, Train Skill
+          </p>
+        </div>
+        <div class="d-flex flex-column ">
+          <span class="text-sm text-primary">Peter Schutz</span>
+          <span class="text-grey text-sm">Former CEO, Porsche</span>
+        </div>
+      </div>
+      <div class="card border-8 d-flex flex-column justify-content-between p-3 mb-2 shadow-lg "
+        style="background-color: #000930; opacity: 0.8;">
+        <div class="d-flex text-dark">
+          <h4 class="text-white">Make a Difference with Your Profile! </h4>
+        </div>
+        <div class="d-flex text-white">
+          <p>Get more Applications on AI based Recruitment System with Your Updated Profile!
+          </p>
+        </div>
+        <div class="d-flex">
+          <div (click)="navigateToMyProfile()"
+            class="d-flex vertical-center px-2 py-1 border-6 text-link btn btn-primary text-white text-lato text-smd">
+            Update Profile
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

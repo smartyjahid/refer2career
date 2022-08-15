@@ -1,0 +1,65 @@
+<ion-app>
+  <ion-menu contentId="main-content" class="custom" type="overlay">
+    <ion-content>
+      <div class="menu-header-bg vertical-center" style="text-align: center;">
+        <img src="../../../assets/logdado.png" class="img-fluid mx-auto pt-2 pr-2" style="width: 150px; height: 100px;"
+          alt="logo">
+      </div>
+      <ion-list class="menu-items" lines="none">
+        <ion-item routerLink="/recruiter/dashboard" routerLinkActive="active" (click)="toggle()">
+          <ion-icon name="grid" routerLinkActive='icon-active'></ion-icon>Dashboard
+        </ion-item>
+        <ion-item routerLink="/recruiter/profile" routerLinkActive="active" (click)="toggle()">
+          <ion-icon name="person" routerLinkActive='icon-active'></ion-icon>My Profile
+        </ion-item>
+        <ion-item routerLink="/recruiter/job-posts" routerLinkActive='active' (click)="toggle()">
+          <ion-icon name="copy" routerLinkActive='icon-active'></ion-icon>Manage Jobs
+        </ion-item>
+        <ion-item routerLink="/recruiter/applicants" routerLinkActive='active' (click)="toggle()">
+          <ion-icon name="people" routerLinkActive='icon-active'></ion-icon>Manage Applicants
+        </ion-item>
+        <ion-item (click)="openModal(feedback)" class="text-link">
+          <ion-icon name="chatbox"></ion-icon>Feedback
+        </ion-item>
+        <ion-item (click)="openModal(logout)" class="text-link">
+          <ion-icon name="log-out"></ion-icon>Logout
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main-content" style="overflow: auto;">
+  </ion-router-outlet>
+</ion-app>
+
+<ng-template #logout>
+  <div class="bg-white box-shadow p-3 m-3" style="border-radius: 10px;">
+    Are you sure you want to logout?
+    <div class="d-flex justify-content-end px-2 mt-2">
+      <button class="btn btn-primary p-0 text-smd bg-violet px-2 mr-3" (click)="loggedOut()">Yes</button>
+      <button class="btn btn-secondary text-smd px-2 p-0" (click)="cancel()">No</button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #feedback>
+  <div class="bg-white box-shadow p-3 m-3" style="border-radius: 10px;">
+    <h4>Feedback</h4>
+    <div>
+      <div class="my-3">
+        <label class="text-grey semi-bold">Type</label>
+        <ng-select [(ngModel)]="type" placeholder="Select type">
+          <ng-option value="Report a complain">Complaint</ng-option>
+          <ng-option value="Review">Suggestion</ng-option>
+        </ng-select>
+      </div>
+      <div class="my-3">
+        <label class="text-grey semi-bold">Description</label>
+        <textarea class="form-control" [(ngModel)]="description" placeholder="Add minimum 10 words!"
+          rows="4"></textarea>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end px-2 mt-4">
+      <button class="btn btn-secondary p-0 text-smd px-2 mr-3" (click)="cancel()">Cancel</button>
+      <button class="btn btn-primary text-smd px-2 p-0" (click)="send()">Send</button>
+    </div>
+  </div>
+</ng-template>

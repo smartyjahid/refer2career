@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.firebase",
+    "\\backend",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\user",
+    "\\src\\app\\user\\refered-profiles"
+  ],
+  "SelectedNode": "\\src\\app\\user\\refered-profiles\\refered-profiles.component.html",
+  "PreviewInSolutionExplorer": false
+}

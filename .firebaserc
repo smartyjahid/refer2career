@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "instajob-7ceb0"
+  },
+  "targets": {
+    "instajob-7ceb0": {
+      "hosting": {
+        "app": [
+          "instajob-7ceb0"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+<div class="h-100 w-100" style="overflow-y: auto;">
+  <div class="bg-primary w-100 text-white"
+    style="min-height: 290px; border-bottom-left-radius: 80px; border-bottom-right-radius: 80px;">
+    <div class="d-flex justify-content-between p-2">
+      <div class="d-flex justify-content-end vertical-center">
+        <ion-menu-button class="text-white"></ion-menu-button>
+      </div>
+      <span class="text-white text-md" style="font-family: 'Roboto', sans-serif;">Refer2Career</span>
+    </div>
+    <div class="row justify-content-between mt-5 pb-2 pt-5">
+      <div class="col-sm-4 d-flex justify-content-center mt-3">
+        <span class="text-white text-lg mx-auto">Hi, {{getName(user.name)}}!</span>
+      </div>
+      <div class="col-sm-4 d-flex justify-content-center mt-3">
+        <button class="btn btn-info bg-coloured px-4" style="border: 0px; border-radius: 10px;">
+          Admin</button>
+      </div>
+      <div class="col-sm-4 d-flex justify-content-center mt-3">
+        <button class="btn btn-outline-light py-1 px-5" routerLink="/admin/profile" style="border-radius: 30px;">My
+          Profile</button>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4 pt-4">
+    <div class="row p-0 m-0 justify-content-between">
+      <div class="row p-2 m-0 col-sm-4">
+        <div class="col-sm-9 mx-auto d-flex border border-primary justify-content-center bg-white card"
+          style="border-radius: 10px;">
+          <div class="rounded-circle bg-violet vertical-center mx-auto"
+            style="margin-top: -30px; width: 90px; height: 90px;">
+            <span class="material-icons text-xlg text-white mx-auto">business</span>
+          </div>
+          <div class="w-100 text-center my-3">
+            <span class="d-block text-dark semi-bold text-lg">Manage recruiters</span>
+            <span class="d-block text-dark">Add new recruiters and manage existing ones.</span>
+          </div>
+          <div class="w-100 d-flex justify-content-center py-4 pb-5 mb-2">
+            <button routerLink="/admin/organizations" class="btn btn-outline-info py-1 px-5"
+              style="border-radius: 30px;">View</button>
+          </div>
+        </div>
+      </div>
+      <div class="row p-2 m-0 col-sm-4">
+        <div class="col-sm-9 mx-auto d-flex border border-primary justify-content-center bg-white card"
+          style="border-radius: 10px;">
+          <div class="rounded-circle bg-violet vertical-center mx-auto"
+            style="margin-top: -30px; width: 90px; height: 90px;">
+            <span class="material-icons text-xxlg text-white mx-auto">post_add</span>
+          </div>
+          <div class="w-100 text-center my-3">
+            <span class="d-block text-dark semi-bold text-lg">Job posts</span>
+            <span class="d-block text-dark">Manage job posts</span>
+          </div>
+          <div class="w-100 d-flex justify-content-center py-4 pb-5 mb-2">
+            <button class="btn btn-outline-info py-1 px-5" routerLink="/admin/jobs"
+              style="border-radius: 30px;">View</button>
+          </div>
+        </div>
+      </div>
+      <div class="row p-2 m-0 col-sm-4">
+        <div class="col-sm-9 mx-auto d-flex border border-primary justify-content-center bg-white card"
+          style="border-radius: 10px;">
+          <div class="rounded-circle bg-violet vertical-center mx-auto"
+            style="margin-top: -30px; width: 90px; height: 90px;">
+            <span class="material-icons text-xxlg text-white mx-auto">monetization_on</span>
+          </div>
+          <div class="w-100 text-center my-3">
+            <span class="d-block text-dark semi-bold text-lg">Encashments</span>
+            <span class="d-block text-dark">Manage encashment requests</span>
+          </div>
+          <div class="w-100 d-flex justify-content-center py-4 pb-5 mb-2">
+            <button class="btn btn-outline-info py-1 px-5" routerLink="/admin/encashment"
+              style="border-radius: 30px;">View</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

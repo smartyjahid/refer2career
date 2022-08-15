@@ -1,0 +1,191 @@
+<app-nav-bar-content [navItems]="navItems"></app-nav-bar-content>
+<div class="wh-100" style="overflow-y: auto; overflow-x: hidden;">
+  <div class="h-100 w-100 bg-lightest-blue" style="overflow-y: auto;" *ngIf="!isServiceRunning">
+    <div class="bg-primary w-100 text-white"
+      style="min-height: 240px; border-bottom-left-radius: 80px; border-bottom-right-radius: 80px;">
+    </div>
+    <h3 class="text-md text-center text-white" style="margin-top: -160px !important;">{{post.jobPost ?
+      post.jobPost.title : ''}}</h3>
+    <div class="row p-0 m-0 justify-content-center">
+      <div class="col-sm-10 p-2" style="overflow-y: auto !important; overflow-x: hidden;">
+        <div class="w-100 vh-100" *ngIf="!isServiceRunning">
+          <div class="p-2 bg-white border-10 w-100 vh-100"
+            style="margin-top: 20px !important; overflow-y: auto !important;">
+            <div class="row justify-content-center vertical-center mt-5">
+              <div class="mr-3 p-2 col-auto text-link border-8" [ngClass]="isApplicationRecieved ? 'active-menu' : ''"
+                (click)="changeTopMenu(0)">
+                <span class="mr-2">Applications</span>
+                <span class="badge badge-light">{{applicationRecieved}}</span>
+              </div>
+              <div class="mr-3 p-2 col-auto text-link border-8" (click)="changeTopMenu(1)"
+                [ngClass]="isShortlisted ? 'active-menu' : ''">
+                <span class="mr-2">Shortlisted</span>
+                <span class="badge badge-light">{{totalShortlisted}}</span>
+              </div>
+              <div class="mr-3 p-2 col-auto text-link border-8" (click)="changeTopMenu(2)"
+                [ngClass]="isHired ? 'active-menu' : ''">
+                <span class="mr-2">Hired</span>
+                <span class="badge badge-light">{{totalHired}}</span>
+              </div>
+              <div class="mr-3 p-2 col-auto text-link border-8" (click)="changeTopMenu(3)"
+                [ngClass]="isRejected ? 'active-menu' : ''">
+                <span class="mr-2">Rejected</span>
+                <span class="badge badge-light">{{totalRejected}}</span>
+              </div>
+            </div>
+            <div class="vertical-center justify-content-end" *ngIf="false">
+              <button class="btn btn-outline-primary text-sm mr-2" (click)="openFilter(filter)">Add Filter</button>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-sm-8 my-2">
+                <div *ngFor="let data of skillsArray; index as i" class="p-1 px-2 bg-violet vertical-center"
+                  style="display: inline-block; border-radius: 5px; width: max-content; margin: 3px !important; white-space:nowrap;">
+                  <span class="text-white mr-3">{{data}}</span>
+                  <span class="material-icons text-xs text-white text-link pt-1"
+                    (click)="removeFromFilter(i)">close</span>
+                </div>
+                <div class="p-1 px-2 bg-violet vertical-center" *ngIf="minExp"
+                  style="display: inline-block; border-radius: 5px; width: max-content; margin: 3px !important; white-space:nowrap;">
+                  <span class="text-white mr-3">Minimum Experience: {{minExp}} Years</span>
+                  <span class="material-icons text-xs text-white text-link pt-1" (click)="removeExp()">close</span>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 row p-3 justify-content-center">
+              <div class="col-sm-8 d-flex justify-content-center p-3" *ngIf="isApplicationRecieved">
+                <button class="btn btn-primary fall-animation" *ngIf="totalChecked"
+                  (click)="openConfirmModal(confirmModal, 'Shortlist')">Shortlist</button>
+              </div>
+              <div class="col-sm-8 d-flex justify-content-center p-3" *ngIf="isShortlisted">
+                <button class="btn btn-primary fall-animation mr-2" *ngIf="totalChecked"
+                  (click)="openConfirmModal(confirmModal, 'Hire')">Hire</button>
+                <button class="btn btn-primary fall-animation" *ngIf="totalChecked"
+                  (click)="openConfirmModal(confirmModal, 'Reject')">Reject</button>
+              </div>
+              <table class="table col-sm-11 mt-3" *ngIf="filteredCandidates.length > 0">
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <mat-checkbox *ngIf="!isRejected && !isHired" class="example-margin text-uppercase"
+                        [checked]="totalChecked == filteredCandidates.length" (change)="checkAll()">
+                      </mat-checkbox>
+                    </th>
+                    <th scope="col">SN</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Resume</th>
+                    <th scope="col">Profile Status</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of filteredCandidates; index as i">
+                    <td>
+                      <mat-checkbox *ngIf="!isRejected && !isHired" (change)="checkedUser(i)"
+                        class="example-margin text-uppercase " [checked]="user.isChecked">
+                      </mat-checkbox>
+                    </td>
+                    <td>{{i + 1}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.email}}</td>
+                    <td><span (click)="openResume(user.resume)" class="material-icons text-primary text-lg text-link">
+                        cloud_download
+                      </span></td>
+                    <td>{{user.profileCompleted}}% Completed</td>
+                    <td >
+                      <div class="col-sm-10 d-flex bg-primary text-link border-8 p-2 d-flex vertical-center">
+                        <span class="text-white justify-content-center text-sm" (click)="viewProfile(user._id)">View Profile</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <app-not-found *ngIf="filteredCandidates.length === 0" message="No Application Available" ></app-not-found>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   
+</div>
+<app-spinner-component *ngIf="isServiceRunning"></app-spinner-component>
+
+<ng-template #filter>
+  <div class="row p-0 pl-0 ml-0 vh-100 justify-content-end">
+    <div class="col-sm-3 p-0 pl-0 ml-0 h-100 bg-white">
+      <div class="p-3 pt-5 h-100">
+        <div class="vertical-center justify-content-between mb-5">
+          <span class="semi-bold text-md">Filter</span>
+          <span class="material-icons text-link text-md bold mr-3" (click)="closeModal()">close</span>
+        </div>
+
+        <div class="mr-3 mb-3">
+          <label class="text-grey">Skills</label>
+          <ng-select placeholder="Select skills" [multiple]="true" [(ngModel)]="skillsArray">
+            <ng-option *ngFor="let option of filteredSkills | async" [value]="option">
+              {{option}}</ng-option>
+          </ng-select>
+        </div>
+        <div class="mr-3">
+          <label class="text-grey">Minimum Experience (in years)</label>
+          <input class="form-control" type="number" [(ngModel)]="minExp" placeholder="Enter Experience">
+        </div>
+      </div>
+      <div class="my-3 position-absolute w-100" style="bottom: 0px !important; padding: 0px;">
+        <hr class="w-100">
+        <div class="vertical-center justify-content-center py-3 mb-5">
+          <span class="text-primary text-smd mr-3 text-violet text-link" (click)="clearFilter()">Clear all</span>
+          <button class="btn btn-primary bg-violet text-sm" (click)="seeResults()">See Results</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #skillModal>
+  <div class="bg-white p-3" style="border-radius: 7px;">
+    <div class="d-block text-right">
+      <span class="material-icons text-grey text-right text-link" (click)="closeModal()">close</span>
+    </div>
+    <span class="text-grey semi-bold d-block text-center my-2">ADD SKILL</span>
+    <div class="row p-0 px-2 m-3">
+      <div class="col-sm-12 mt-3">
+        <mat-form-field class="p-0 w-100 mat-form-field">
+          <mat-label>Skill Name</mat-label>
+          <input type="text" placeholder="Ex. JAVA" aria-label="Number" matInput [formControl]="skillName"
+            [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredSkills | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error>Enter valid detail</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="w-100 d-flex justify-content-end mt-4">
+      <button class="btn btn-primary bg-violet py-1 px-2" (click)="addSkill()">ADD SKILL</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #confirmModal>
+  <div class="p-3 bg-white" style="border-radius: 10px;">
+    <div class="w-100 text-right">
+      <span class="material-icons text-link text-smd text-grey bold" (click)="closeModal()">close</span>
+    </div>
+    <div class="w-100 text-center">
+      <span class="text-grey text-slmd">Are you sure, you want to {{confirmModalStatus}} the selected applicants
+      </span>
+    </div>
+    <div class="mt-4 vertical-center justify-content-center">
+      <button class="btn btn-primary text-sm" *ngIf="confirmModalStatus === 'Shortlist'"
+        (click)="updateStatus('Shortlisted')">Shortlist</button>
+      <button class="btn btn-primary text-sm" *ngIf="confirmModalStatus === 'Hire'"
+        (click)="updateStatus('Hired')">Hire</button>
+      <button class="btn btn-primary text-sm" *ngIf="confirmModalStatus === 'Reject'"
+        (click)="updateStatus('Rejected')">Reject</button>
+    </div>
+  </div>
+</ng-template>

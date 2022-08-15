@@ -1,0 +1,7 @@
+{
+  "name": "insta jobs",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

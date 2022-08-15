@@ -1,0 +1,131 @@
+* {
+    font-family: 'Lato', sans-serif;
+}
+
+.active-button:hover{
+    background-color: #0E2043; 
+    color: white !important;
+    border-radius: 6px;
+}
+
+.logo-header{
+    height: auto;
+    width: auto;
+    max-width: 170px !important;
+}
+
+.linked-in-color{
+    color: #0077b7 !important;
+}
+
+.facebook-color{
+  color: #3d548e !important;
+}
+
+.site-button.button-lg {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 14px 30px;
+    text-transform: uppercase;
+}
+
+.p-a30 {
+    padding: 30px;
+}
+
+.border-1{
+    border-color: #dfdfdf;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.h4{
+    font-size: 24px;
+    line-height: 28px;
+    margin-bottom: 15px;
+}
+
+.h3{
+    font-size: 28px;
+    line-height: 35px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.p{
+    line-height: 24px;
+    margin-bottom: 24px;
+}
+
+.list-inline {
+    padding-left: 0;
+    list-style: none;
+}
+
+.label {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #6f6f6f;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.site-button{
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.site-button.circle {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 40px;
+    line-height: 39px;
+    background: #fff;
+}
+
+.site-button.outline-2 {
+    border-width: 2px;
+}
+
+.site-button.outline {
+    background: none;
+    border-style: solid;
+    border-color: inherit;
+}
+
+.form-control {
+        background: #f9faff none repeat scroll 0 0;
+        border: 0 none;
+        font-size: 16px;
+        height: 50px;
+        padding: 0 20px;
+}
+
+.tab-content>.active {
+    display: block;
+}
+
+.a{
+    transition: all 0.2s linear;
+    outline: 0 none;
+    text-decoration: none;
+}
+
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.myfont-size{
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Lato', sans-serif;
+    color: #000;;
+}

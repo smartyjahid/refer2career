@@ -1,0 +1,92 @@
+<div class="wh-100" style="overflow-y: auto; overflow-x: hidden;">
+  <ion-header style="position: fixed">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Job Posts</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div class="row justify-content-center" style="overflow: auto;" *ngIf="!isServiceRunning">
+    <div class="col-sm-12 m-2 d-flex justify-content-end">
+      <button class="btn btn-primary m-2 position-fixed bg-violet text-sm px-3 py-1" style="z-index: 99;"
+        (click)="addJobPost()">Add Job Post</button>
+    </div>
+  </div>
+  <div class="row justify-content-center px-1">
+    <div class="m-3 mt-5 p-2 bg-white col-sm-11"
+      style="margin-top: 70px !important; border-radius: 7px; overflow-y: auto !important; border: 1px solid #cccccc;">
+      <table class="table">
+        <thead class="thead-light">
+          <tr class="text-center">
+            <th scope="col">#</th>
+            <th scope="col text-center">Title</th>
+            <th scope="col text-center">Posted By</th>
+            <th scope="col text-center">Posted On</th>
+            <th scope="col text-center">STATUS</th>
+            <th scope="col text-center">ACTION</th>
+            <th scope="col text-center"></th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr *ngFor="let post of allJobPost; index as i">
+            <td>{{i+1}}</td>
+            <td class="">{{post.jobPost.title}}</td>
+            <td class="">{{post.jobPost.companyName}}</td>
+            <td class="">{{post.jobPost.createdAt | date: 'dd MMMM yyyy'}}</td>
+            <td class="pt-3"><span class="semi-bold w-100 text-center p-2 my-auto px-5 text-warning"
+                *ngIf="!post.status" style="background-color: #feffc4; border-radius: 10px;">Pending</span>
+              <span class="semi-bold w-100 text-center p-2 my-auto px-5" style="border-radius: 10px;"
+                [ngClass]="post.status === 'rejected' ? 'text-danger' : 'text-success'" *ngIf="post.status"
+                [ngStyle]="post.status === 'rejected' ? {'background-color': '#ffc2c2'} :  {'background-color': '#e2ffd1'}">{{post.status
+                === 'rejected' ?
+                'Rejected' : 'Approved'}}</span>
+            </td>
+            <td class="vertical-center justify-content-center">
+              <span (click)="seeDetails(post._id)" class="p-1 px-3 btn btn-primary bg-violet"
+                style="border-radius: 10px;">View Job Post</span>
+              <span *ngIf="!post.status" (click)="openApproveModal(post._id, approve)"
+                class="p-1 mr-2 ml-3 px-3 btn btn-success" style="border-radius: 10px;">Approve</span>
+              <span (click)="openRejectModal(post._id, reject)" *ngIf="!post.status"
+                class="p-1 px-3 mr-2 btn btn-danger" style="border-radius: 10px;">Reject</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #reject>
+  <div class="bg-white p-3 border-12">
+    <div class="d-flex justify-content-end">
+      <span class="material-icons text-grey semi-bold text-link" (click)="closeModal()">close</span>
+    </div>
+    <h5 class="text-center text-grey semi-bold mb-4">Reason for reject</h5>
+    <textarea class="form-control mb-5" [(ngModel)]="rejectReason" placeholder="Enter reason for reject"
+      rows="3"></textarea>
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-danger px-3 py-1" (click)="rejectPost()">Reject</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #approve>
+  <div class="bg-white p-3 border-12">
+    <div class="d-flex justify-content-end">
+      <span class="material-icons text-grey semi-bold text-link" (click)="closeModal()">close</span>
+    </div>
+    <h5 class="text-center text-grey semi-bold mb-4">Approve Job Post</h5>
+    <label class="text-grey text-smd">Enter refer reward</label>
+    <div class="input-group mb-5">
+      <div class="input-group-prepend">
+        <div class="input-group-text">₹</div>
+      </div>
+      <input type="number" class="form-control" [(ngModel)]="referReward" placeholder="Enter amount">
+    </div>
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-success px-3 py-1" (click)="approvePost()">Approve</button>
+    </div>
+  </div>
+</ng-template>
+<app-spinner-component *ngIf="isServiceRunning"></app-spinner-component>

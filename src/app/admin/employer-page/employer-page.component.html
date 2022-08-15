@@ -1,0 +1,30 @@
+<div class="wh-100" style="overflow-y: auto; overflow-x: hidden;">
+  <ion-header style="position: fixed">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Organizations</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div class="row justify-content-center" style="overflow: auto;" *ngIf="!isServiceRunning">
+    <div class="col-sm-12 m-2 d-flex justify-content-end">
+      <button class="btn btn-primary m-2 position-fixed bg-violet text-sm px-3 py-1" (click)="addOrganization()"
+        style="z-index: 99;">Add Organizations</button>
+    </div>
+    <div class="row justify-content-center" style="overflow: auto; margin-top: 70px !important;">
+      <div class="col-sm-4 m-3 pt-4" *ngFor="let org of allOrganizations">
+        <div class="card box-shadow w-100 p-3 btn btn-light">
+          <img class="card-img-top center-parent mx-auto rounded-circle" src="{{org.personalDetails.photo}}"
+            style="height: 120px; width: 120px;">
+          <div class="card-body">
+            <h5 class="card-title">{{org.organizationDetails.organizationName}}</h5>
+            <p class="text-grey w-100">Total job posts : <span class="text-grey">10</span></p>
+            <div class="btn btn-primary bg-violet" (click)="seeDetails(org)">See details</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-spinner-component *ngIf="isServiceRunning"></app-spinner-component>
