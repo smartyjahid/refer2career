@@ -40,12 +40,12 @@ const onError = error => {
 
 //remove while running localy with two servers
 
-app.use(express.static(__dirname + '/www'));
+// app.use(express.static(__dirname + '/www'));
 
-app.get('/*', function (req, res) {
+// app.get('/*', function (req, res) {
 
-res.sendFile(path.join(__dirname + '/www/index.html'));
-});
+// res.sendFile(path.join(__dirname + '/www/index.html'));
+// });
 
 //remove till here
 
